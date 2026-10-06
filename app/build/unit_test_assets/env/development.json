@@ -1,0 +1,6 @@
+{
+  "apiBaseUrl": "http://localhost:8080/api",
+  "useMock": false,
+  "connectTimeoutMs": 10000,
+  "receiveTimeoutMs": 10000
+}
