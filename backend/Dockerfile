@@ -1,14 +1,14 @@
 # Multi-stage Dockerfile for ASP.NET Core API (.NET 10)
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-WORKDIR /src
+WORKDIR /app
 
 # Copy project file and restore
-COPY ["server/DriverTracker.Api.csproj", "server/"]
-RUN dotnet restore "server/DriverTracker.Api.csproj"
+COPY src/DriverTracker.Api.csproj src/
+RUN dotnet restore "src/DriverTracker.Api.csproj"
 
 # Copy remaining source code and publish
-COPY server/ server/
-WORKDIR "/src/server"
+COPY src/ src/
+WORKDIR "/app/src"
 RUN dotnet publish "DriverTracker.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Runtime stage
