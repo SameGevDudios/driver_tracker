@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../domain/model/daily_summary.dart';
-import '../../domain/model/trip.dart';
+import 'package:driver_tracker/feature/trips/domain/model/daily_summary.dart';
+import 'package:driver_tracker/feature/trips/domain/model/trip.dart';
 
 class ShiftReceiptCard extends StatelessWidget {
   final DateTime date;

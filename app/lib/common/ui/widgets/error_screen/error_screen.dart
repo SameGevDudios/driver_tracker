@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../buttons/app_button.dart';
+import 'package:driver_tracker/common/ui/widgets/buttons/app_button.dart';
 
 class ErrorScreen extends StatelessWidget {
   final String title;

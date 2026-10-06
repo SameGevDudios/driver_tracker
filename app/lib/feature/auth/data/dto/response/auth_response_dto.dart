@@ -1,4 +1,4 @@
-import '../../../domain/model/auth_user.dart';
+import 'package:driver_tracker/feature/auth/domain/model/auth_user.dart';
 
 class AuthResponseDto {
   final String token;

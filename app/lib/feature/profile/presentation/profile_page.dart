@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../common/config/app_config.dart';
-import '../../../common/navigation/navigation_routes.dart';
-import '../../../common/ui/widgets/buttons/app_button.dart';
-import '../../auth/presentation/logic/auth_bloc/auth_bloc.dart';
-import '../../auth/presentation/logic/auth_bloc/auth_event.dart';
-import '../../auth/presentation/logic/auth_bloc/auth_state.dart';
+import 'package:driver_tracker/common/config/app_config.dart';
+import 'package:driver_tracker/common/navigation/navigation_routes.dart';
+import 'package:driver_tracker/common/ui/widgets/buttons/app_button.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/auth_bloc/auth_bloc.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/auth_bloc/auth_event.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/auth_bloc/auth_state.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

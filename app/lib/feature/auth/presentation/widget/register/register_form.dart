@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:driver_tracker/common/ui/widgets/buttons/app_button.dart';
 import 'package:driver_tracker/common/ui/widgets/form_fields/app_text_field.dart';
-import '../../logic/auth_bloc/auth_bloc.dart';
-import '../../logic/auth_bloc/auth_event.dart';
-import '../../logic/auth_bloc/auth_state.dart';
-import '../../logic/page_cubit/page_cubit.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/auth_bloc/auth_bloc.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/auth_bloc/auth_event.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/auth_bloc/auth_state.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/page_cubit/page_cubit.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});

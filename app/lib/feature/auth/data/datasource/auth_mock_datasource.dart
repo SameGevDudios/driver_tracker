@@ -1,7 +1,7 @@
 import 'dart:async';
-import '../dto/request/login_request_dto.dart';
-import '../dto/request/register_request_dto.dart';
-import '../dto/response/auth_response_dto.dart';
+import 'package:driver_tracker/feature/auth/data/dto/request/login_request_dto.dart';
+import 'package:driver_tracker/feature/auth/data/dto/request/register_request_dto.dart';
+import 'package:driver_tracker/feature/auth/data/dto/response/auth_response_dto.dart';
 import 'auth_remote_datasource.dart';
 
 class AuthMockDatasource implements AuthDatasource {

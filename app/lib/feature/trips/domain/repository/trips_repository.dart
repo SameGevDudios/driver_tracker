@@ -1,5 +1,5 @@
-import '../model/daily_summary.dart';
-import '../model/trip.dart';
+import 'package:driver_tracker/feature/trips/domain/model/daily_summary.dart';
+import 'package:driver_tracker/feature/trips/domain/model/trip.dart';
 
 abstract class TripsRepository {
   Future<List<Trip>> getTrips(DateTime date);

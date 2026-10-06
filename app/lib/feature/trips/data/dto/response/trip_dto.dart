@@ -1,4 +1,4 @@
-import '../../../domain/model/trip.dart';
+import 'package:driver_tracker/feature/trips/domain/model/trip.dart';
 
 class TripDto {
   final String id;

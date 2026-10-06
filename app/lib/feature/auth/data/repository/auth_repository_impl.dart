@@ -1,10 +1,10 @@
-import '../../../../common/api/session_manager.dart';
-import '../../../../common/domain/model/user_session.dart';
-import '../../domain/model/auth_user.dart';
-import '../../domain/repository/auth_repository.dart';
-import '../datasource/auth_remote_datasource.dart';
-import '../dto/request/login_request_dto.dart';
-import '../dto/request/register_request_dto.dart';
+import 'package:driver_tracker/common/api/session_manager.dart';
+import 'package:driver_tracker/common/domain/model/user_session.dart';
+import 'package:driver_tracker/feature/auth/domain/model/auth_user.dart';
+import 'package:driver_tracker/feature/auth/domain/repository/auth_repository.dart';
+import 'package:driver_tracker/feature/auth/data/datasource/auth_remote_datasource.dart';
+import 'package:driver_tracker/feature/auth/data/dto/request/login_request_dto.dart';
+import 'package:driver_tracker/feature/auth/data/dto/request/register_request_dto.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDatasource _datasource;

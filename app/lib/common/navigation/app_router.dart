@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../feature/auth/presentation/widget/auth_page.dart';
-import '../../feature/profile/presentation/profile_page.dart';
-import '../../feature/trips/presentation/widget/trips_diary_page.dart';
-import '../api/session_manager.dart';
+import 'package:driver_tracker/feature/auth/presentation/widget/auth_page.dart';
+import 'package:driver_tracker/feature/profile/presentation/profile_page.dart';
+import 'package:driver_tracker/feature/trips/presentation/widget/trips_diary_page.dart';
+import 'package:driver_tracker/common/api/session_manager.dart';
 import 'navigation_routes.dart';
 import 'widgets/app_scaffold.dart';
 

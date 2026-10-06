@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../common/navigation/navigation_routes.dart';
-import '../logic/auth_bloc/auth_bloc.dart';
-import '../logic/auth_bloc/auth_state.dart';
-import '../logic/email_cubit/email_cubit.dart';
-import '../logic/login_available_cubit/login_available_cubit.dart';
-import '../logic/page_cubit/page_cubit.dart';
-import '../model/auth_tab.dart';
+import 'package:driver_tracker/common/navigation/navigation_routes.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/auth_bloc/auth_bloc.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/auth_bloc/auth_state.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/email_cubit/email_cubit.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/login_available_cubit/login_available_cubit.dart';
+import 'package:driver_tracker/feature/auth/presentation/logic/page_cubit/page_cubit.dart';
+import 'package:driver_tracker/feature/auth/presentation/model/auth_tab.dart';
 import 'login/login_form.dart';
 import 'register/register_form.dart';
 

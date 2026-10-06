@@ -1,7 +1,7 @@
 import 'dart:convert';
-import '../domain/model/user_session.dart';
-import '../storage/secure_storage_service.dart';
-import '../storage/storage_keys.dart';
+import 'package:driver_tracker/common/domain/model/user_session.dart';
+import 'package:driver_tracker/common/storage/secure_storage_service.dart';
+import 'package:driver_tracker/common/storage/storage_keys.dart';
 import 'session_manager.dart';
 
 class SessionManagerImpl implements SessionManager {

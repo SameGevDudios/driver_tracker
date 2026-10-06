@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../model/auth_tab.dart';
+import 'package:driver_tracker/feature/auth/presentation/model/auth_tab.dart';
 
 class PageCubit extends Cubit<AuthTab> {
   PageCubit() : super(AuthTab.login);

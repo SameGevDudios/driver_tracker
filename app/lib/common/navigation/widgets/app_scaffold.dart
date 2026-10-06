@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../navigation_routes.dart';
+import 'package:driver_tracker/common/navigation/navigation_routes.dart';
 import 'bottom_nav_bar.dart';
 
 class AppScaffold extends StatelessWidget {

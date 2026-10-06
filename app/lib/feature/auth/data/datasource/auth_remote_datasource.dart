@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import '../../../../common/api/api_constants.dart';
-import '../dto/request/login_request_dto.dart';
-import '../dto/request/register_request_dto.dart';
-import '../dto/response/auth_response_dto.dart';
+import 'package:driver_tracker/common/api/api_constants.dart';
+import 'package:driver_tracker/feature/auth/data/dto/request/login_request_dto.dart';
+import 'package:driver_tracker/feature/auth/data/dto/request/register_request_dto.dart';
+import 'package:driver_tracker/feature/auth/data/dto/response/auth_response_dto.dart';
 
 abstract class AuthDatasource {
   Future<AuthResponseDto> login(LoginRequestDto request);

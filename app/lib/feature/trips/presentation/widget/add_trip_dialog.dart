@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../../../common/ui/widgets/buttons/app_button.dart';
-import '../../../../common/ui/widgets/form_fields/app_text_field.dart';
-import '../logic/add_trip_cubit/add_trip_cubit.dart';
-import '../logic/add_trip_cubit/add_trip_state.dart';
+import 'package:driver_tracker/common/ui/widgets/buttons/app_button.dart';
+import 'package:driver_tracker/common/ui/widgets/form_fields/app_text_field.dart';
+import 'package:driver_tracker/feature/trips/presentation/logic/add_trip_cubit/add_trip_cubit.dart';
+import 'package:driver_tracker/feature/trips/presentation/logic/add_trip_cubit/add_trip_state.dart';
 
 class AddTripDialog extends StatefulWidget {
   final DateTime selectedDate;

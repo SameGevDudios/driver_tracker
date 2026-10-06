@@ -1,4 +1,4 @@
-import '../../../domain/model/daily_summary.dart';
+import 'package:driver_tracker/feature/trips/domain/model/daily_summary.dart';
 
 class DailySummaryDto {
   final String date;

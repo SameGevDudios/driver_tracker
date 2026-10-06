@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
-import '../../domain/model/daily_summary.dart';
-import '../../domain/model/trip.dart';
-import '../../domain/repository/trips_repository.dart';
-import '../datasource/trips_datasource.dart';
-import '../dto/request/create_trip_dto.dart';
+import 'package:driver_tracker/feature/trips/domain/model/daily_summary.dart';
+import 'package:driver_tracker/feature/trips/domain/model/trip.dart';
+import 'package:driver_tracker/feature/trips/domain/repository/trips_repository.dart';
+import 'package:driver_tracker/feature/trips/data/datasource/trips_datasource.dart';
+import 'package:driver_tracker/feature/trips/data/dto/request/create_trip_dto.dart';
 
 class TripsRepositoryImpl implements TripsRepository {
   final TripsDatasource _datasource;

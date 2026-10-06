@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../config/app_config.dart';
+import 'package:driver_tracker/common/config/app_config.dart';
 import 'auth_interceptor.dart';
 import 'session_manager.dart';
 
