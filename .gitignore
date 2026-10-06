@@ -26,12 +26,13 @@ migrate_working_dir/
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
-/coverage/
+**/.dart_tool/
+**/.flutter-plugins-dependencies
+**/.flutter-plugins
+**/.pub-cache/
+**/.pub/
+**/build/
+**/coverage/
 
 # Symbolication related
 app.*.symbols
@@ -40,6 +41,40 @@ app.*.symbols
 app.*.map.json
 
 # Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+
+# ASP.NET Core / .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Environment & Secrets
+**/.env
+**/.env.*
+!**/.env.example
+**/env/*.json
+!**/env/*.example.json
+**/appsettings.Local.json
+**/appsettings.Secrets.json
+secrets.json
+
+# Keystores, certificates and private keys
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+*.cer
+*.key
+key.properties
+AuthKey_*.p8
+*.mobileprovision
+
+# Docker / Databases
+pgdata/
+.docker/

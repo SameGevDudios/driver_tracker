@@ -1,0 +1,13 @@
+**/.git
+**/.github
+**/.vscode
+**/.idea
+**/bin
+**/obj
+**/build
+tests
+.env
+.env.*
+appsettings.Local.json
+appsettings.Secrets.json
+secrets.json
