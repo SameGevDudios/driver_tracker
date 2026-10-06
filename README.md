@@ -1,20 +1,20 @@
 # 🚖 Дневник смен водителя (Driver Tracker)
 
-Кроссплатформенное мобильное приложение на **Flutter (Android & iOS)** с бэкендом на **ASP.NET Core (.NET 10) + Entity Framework Core + PostgreSQL**, упакованным в **Docker**.
+Монорепозиторий с чётким разделением на мобильное приложение (**Flutter**, Android & iOS) и бэкенд (**ASP.NET Core**, EF Core, PostgreSQL, Docker).
 
-Архитектура клиентского приложения выстроена строго по методологии **Feature-Sliced Design (FSD)**.
+Архитектура мобильного приложения выстроена строго по методологии **Feature-Sliced Design (FSD)**.
 
 ---
 
 ## 📑 Содержание
 1. [Функциональность](#-функциональность)
-2. [Архитектура и структура проекта](#-архитектура-и-структура-проекта)
+2. [Архитектура и структура монорепозитория](#-архитектура-и-структура-монорепозитория)
 3. [Стек технологий и зависимости](#-стек-технологий-и-зависимости)
 4. [Инструкция по запуску](#-инструкция-по-запуску)
-   - [Вариант А: Запуск бэкенда в Docker Compose](#вариант-а-запуск-бэкенда-в-docker-compose)
-   - [Вариант Б: Локальный запуск бэкенда](#вариант-б-локальный-запуск-бэкенда)
-   - [Вариант В: Автономный Mock-режим Flutter](#вариант-в-автономный-mock-режим-flutter)
-   - [Запуск Flutter приложения](#запуск-flutter-клиента)
+   - [Вариант А: Запуск бэкенда в Docker Compose](#вариант-а-запуск-бэкенда-в-docker-compose-рекомендуемый)
+   - [Вариант Б: Локальный запуск бэкенда](#вариант-б-локальный-запуск-бэкенда-без-docker)
+   - [Вариант В: Автономный Mock-режим приложения](#вариант-в-автономный-mock-режим-приложения-без-бэкенда)
+   - [Запуск Flutter приложения](#запуск-flutter-приложения)
 5. [Тестирование](#-тестирование)
 6. [Использование ИИ (Отчёт для анкеты)](#-использование-ии-отчёт-для-анкеты)
 
@@ -54,67 +54,77 @@
 
 ---
 
-## 🏛 Архитектура и структура проекта
+## 🏛 Архитектура и структура монорепозитория
 
-### Структура проекта (FSD)
+Проект разделён на две независимые изолированные части: клиентское приложение (`app/`) и серверная часть (`backend/`).
+
 ```text
 driver_tracker/
+├── app/                              # Мобильное приложение Flutter (Android & iOS)
+│   ├── android/                      # Нативная часть для Android
+│   ├── ios/                          # Нативная часть для iOS
+│   ├── env/                          # Конфигурация окружения
+│   │   ├── development.example.json  # Пример конфигурации
+│   │   └── development.json          # Активная конфигурация (API URL, флаг useMock)
+│   ├── lib/                          # Исходный код Flutter (FSD архитектура)
+│   │   ├── common/                   # Общий переиспользуемый слой FSD
+│   │   │   ├── api/                  # DioClient, AuthInterceptor, SessionManager, ApiConstants
+│   │   │   ├── config/               # AppConfig (загрузка из env)
+│   │   │   ├── domain/model/         # UserSession
+│   │   │   ├── navigation/           # AppRouter (GoRouter), AppScaffold, BottomNavBar
+│   │   │   ├── storage/              # SecureStorageService, StorageKeys
+│   │   │   ├── ui/widgets/           # AppButton, ErrorScreen, AppTextField, Skeletons, Modals
+│   │   │   └── utils/                # BlocErrorHandler (обработка ошибок)
+│   │   ├── feature/                  # Фичи по методологии FSD
+│   │   │   ├── auth/                 # Модуль авторизации (Data, Domain, Presentation)
+│   │   │   ├── trips/                # Модуль смен и поездок водителя (Data, Domain, Presentation)
+│   │   │   └── profile/              # Экран профиля водителя и настроек
+│   │   ├── startup/                  # Бутстрап приложения и DI
+│   │   │   ├── api/                  # AppInitializerApi
+│   │   │   └── impl/                 # AppInitializerImpl
+│   │   └── main.dart                 # Точка входа Flutter приложения
+│   ├── test/                         # Unit тесты Flutter
+│   │   ├── trips_summary_test.dart   # Тесты расчёта сводки за день
+│   │   └── duplicate_trip_protection_test.dart # Тесты защиты от дублей
+│   ├── analysis_options.yaml
+│   └── pubspec.yaml                  # Зависимости Flutter
+│
+├── backend/                          # Серверная часть (.NET 10 Web API)
+│   ├── DriverTracker.slnx            # Solution-файл бэкенда
+│   ├── Dockerfile                    # Multi-stage Dockerfile
+│   ├── .dockerignore
+│   ├── src/                          # Исходный код API (DriverTracker.Api)
+│   │   ├── Controllers/              # TripsController, AuthController
+│   │   ├── Data/                     # AppDbContext, DbInitializer (seed), Entities
+│   │   ├── Models/                   # DTOs и контракты запросов/ответов
+│   │   ├── Services/                 # Бизнес-логика, расчёт сводки, защита от дублей
+│   │   ├── Program.cs                # DI, CORS, автоматический seed БД
+│   │   ├── appsettings.json
+│   │   └── DriverTracker.Api.csproj
+│   └── tests/                        # Тесты бэкенда (DriverTracker.Api.Tests)
+│       ├── SummaryCalculationTests.cs    # xUnit тесты расчёта сводки
+│       ├── DuplicateTripProtectionTests.cs # xUnit тесты защиты от дублей
+│       └── DriverTracker.Api.Tests.csproj
+│
+├── .dockerignore                     # Исключения для корневого Docker
 ├── .env.example                      # Переменные окружения для Docker
-├── .dockerignore                     # Исключения для сборки Docker
+├── .gitignore                        # Исключения Git
 ├── docker-compose.yml                # Docker Compose (Backend + PostgreSQL)
-├── env/
-│   ├── development.example.json      # Пример конфигурации клиента
-│   └── development.json              # Активная конфигурация Flutter (API url, mock-флаг)
-├── server/                           # ASP.NET Core Web API (.NET 10)
-│   ├── Controllers/                  # TripsController, AuthController
-│   ├── Data/                         # AppDbContext, DbInitializer (seed), Entities
-│   ├── Models/                       # DTOs и контракты запросов/ответов
-│   ├── Services/                     # Бизнес-логика, расчёт сводки, защита от дублей
-│   ├── Dockerfile                    # Multi-stage сборка .NET 10
-│   └── Program.cs                    # DI, CORS, автоматический seed БД
-├── server_tests/                     # xUnit тесты бэкенда
-│   ├── SummaryCalculationTests.cs    # Тесты расчёта сводки и «на руки»
-│   └── DuplicateTripProtectionTests.cs # Тесты защиты от дублей и валидации
-├── lib/                              # Flutter клиент
-│   ├── common/                       # Переиспользуемый слой FSD
-│   │   ├── api/                      # DioClient, AuthInterceptor, SessionManager, ApiConstants
-│   │   ├── config/                   # AppConfig (загрузка из env)
-│   │   ├── domain/model/             # UserSession
-│   │   ├── navigation/               # AppRouter (GoRouter), AppScaffold, BottomNavBar
-│   │   ├── storage/                  # SecureStorageService, StorageKeys
-│   │   ├── ui/widgets/               # Buttons, ErrorScreen, FormFields, Skeletons, Modals
-│   │   └── utils/bloc_error_handler/ # Маппинг ошибок сети и валидации в понятные сообщения
-│   ├── feature/                      # Фичи по методологии FSD
-│   │   ├── auth/                     # Модуль авторизации (Data, Domain, Presentation)
-│   │   │   ├── data/                 # Datasource (remote + mock), DTOs, Repository
-│   │   │   ├── domain/               # Model, Repository Interface
-│   │   │   └── presentation/         # AuthBloc, EmailCubit, LoginAvailableCubit, PageCubit
-│   │   ├── trips/                    # Модуль дневника смен водителя
-│   │   │   ├── data/                 # Remote & Mock Datasource, DTOs, Repository
-│   │   │   ├── domain/               # Trip, DailySummary, Repository Interface
-│   │   │   └── presentation/         # TripsBloc, AddTripCubit, SummaryCard, TripCard, Dialog
-│   │   └── profile/                  # Экран профиля водителя и настроек
-│   └── startup/                      # Инициализация приложения и DI
-│       ├── api/                      # AppInitializerApi
-│       └── impl/                     # AppInitializerImpl
-├── test/                             # Unit тесты Flutter
-│   ├── trips_summary_test.dart       # Проверка эталонных данных (3900 / 585 / 3315)
-│   └── duplicate_trip_protection_test.dart # Проверка валидации и блокировки дубликатов
-└── main.dart                         # Точка входа Flutter приложения
+└── README.md                         # Документация проекта
 ```
 
 ---
 
 ## 🛠 Стек технологий и зависимости
 
-### Клиент (Flutter)
+### Клиентское приложение (`app/`)
 - **State Management**: `flutter_bloc`, `bloc_concurrency` (с `restartable` и `droppable` трансформерами)
 - **Навигация**: `go_router` (с поддержкой `ShellRoute`)
 - **Сетевой клиент**: `dio`, `pretty_dio_logger`, `dio_cookie_manager`, `cookie_jar`
 - **Безопасное хранилище**: `flutter_secure_storage`
 - **Утилиты и UI**: `equatable`, `intl`, `flutter_svg`, `cupertino_icons`
 
-### Сервер (Backend)
+### Серверная часть (`backend/`)
 - **Платформа**: ASP.NET Core (.NET 10)
 - **ORM**: Entity Framework Core 10 (`Npgsql.EntityFrameworkCore.PostgreSQL`, `Microsoft.EntityFrameworkCore.InMemory`)
 - **База данных**: PostgreSQL 16 (в Docker)
@@ -126,9 +136,7 @@ driver_tracker/
 ## 🚀 Инструкция по запуску
 
 ### Вариант А: Запуск бэкенда в Docker Compose (Рекомендуемый)
-Для запуска полноценного стека (PostgreSQL + ASP.NET Core API):
-
-1. Скопируйте файл переменных окружения:
+1. Скопируйте файл переменных окружения в корень проекта:
    ```bash
    cp .env.example .env
    ```
@@ -143,15 +151,16 @@ driver_tracker/
 ### Вариант Б: Локальный запуск бэкенда (без Docker)
 Если на машине установлен .NET SDK:
 ```bash
-dotnet run --project server/DriverTracker.Api.csproj
+cd backend/src
+dotnet run
 ```
-*(При отсутствии PostgreSQL сервер автоматически задействует InMemory-хранилище)*.
+*(При отсутствии запущенного PostgreSQL сервер автоматически переключается на InMemory-хранилище)*.
 
 ---
 
-### Вариант В: Автономный Mock-режим Flutter (без запуска бэкенда)
-Flutter-клиент имеет встроенный полноценный Mock-источник данных, позволяющий проверять весь интерфейс и логику без запущенного бэкенда.
-В файле `env/development.json` установите:
+### Вариант В: Автономный Mock-режим приложения (без бэкенда)
+Flutter-приложение содержит встроенный Mock-источник данных, позволяющий тестировать всю функциональность без развёртывания бэкенда.
+В файле `app/env/development.json` установите:
 ```json
 {
   "apiBaseUrl": "http://localhost:8080/api",
@@ -161,17 +170,21 @@ Flutter-клиент имеет встроенный полноценный Mock
 
 ---
 
-### Запуск Flutter клиента
-1. Установите зависимости:
+### Запуск Flutter приложения
+1. Перейдите в папку `app`:
+   ```bash
+   cd app
+   ```
+2. Установите зависимости:
    ```bash
    flutter pub get
    ```
-2. Запустите приложение на подключенном устройстве или эмуляторе:
+3. Запустите приложение:
    ```bash
    flutter run
    ```
 
-> **Примечание для Android эмулятора**: при обращении к бэкенду на хост-машине укажите `"apiBaseUrl": "http://10.0.2.2:8080/api"` в `env/development.json`.
+> **Примечание для Android эмулятора**: при обращении к бэкенду на хост-машине укажите `"apiBaseUrl": "http://10.0.2.2:8080/api"` в `app/env/development.json`.
 
 ---
 
@@ -179,9 +192,10 @@ Flutter-клиент имеет встроенный полноценный Mock
 
 Проект покрыт автоматическими тестами на обоих уровнях (бэкенд и мобильный клиент).
 
-### 1. Тесты Flutter клиента
-Проверяют расчёт эталонной сводки за день из ТЗ (3900 ₽ выручка, 585 ₽ комиссия, 3315 ₽ на руки), разбивку по типам оплаты, валидацию данных ($amount > 0$, $end > start$) и защиту от дублей:
+### 1. Тесты Flutter приложения
+Проверяют расчёт эталонной сводки за день из ТЗ (3900 выручка, 585 комиссия, 3315 на руки), разбивку по типам оплаты, валидацию данных ($amount > 0$, $end > start$) и защиту от дублей:
 ```bash
+cd app
 flutter test
 ```
 *Результат: 9 пройденных тестов (100% success).*
@@ -189,7 +203,8 @@ flutter test
 ### 2. Тесты бэкенда (xUnit)
 Проверяют работу сервиса поездок, подсчёт показателей и блокировку повторных отправок:
 ```bash
-dotnet test server_tests/DriverTracker.Api.Tests.csproj
+cd backend
+dotnet test DriverTracker.slnx
 ```
 *Результат: 8 пройденных тестов (100% success).*
 
@@ -201,10 +216,11 @@ dotnet test server_tests/DriverTracker.Api.Tests.csproj
 - Проектирование чистой архитектуры по методологии **Feature-Sliced Design (FSD)** для Flutter-клиента и REST API на ASP.NET Core;
 - Генерация DTO-моделей, валидаторов и транзакционной логики защиты от повторных отправок поездок;
 - Написание модульных тестов на проверку расчёта сводки и блокировки дубликатов;
-- Создание Dockerfile и docker-compose конфигурации.
+- Создание Dockerfile и docker-compose конфигурации;
+- Рефакторинг и разделение монорепозитория на директории `app/` и `backend/`.
 
 ### Где ошибся ИИ:
-1. **Глубина относительных путей в FSD**: Из-за глубокой вложенности файлов (например, `lib/feature/trips/presentation/logic/trips_bloc/trips_bloc.dart` — 5 уровней вложенности) относительные импорты вида `../../../../common/...` привели к ошибкам `uri_does_not_exist`.
+1. **Глубина относительных путей в FSD**: Из-за глубокой вложенности файлов (например, `app/lib/feature/trips/presentation/logic/trips_bloc/trips_bloc.dart` — 5 уровней вложенности) относительные импорты вида `../../../../common/...` привели к ошибкам `uri_does_not_exist`.
 2. **Изменение API Flutter 3.41**: В `ThemeData` свойство `cardTheme` в актуальной версии ожидает тип `CardThemeData`, а не устаревший класс `CardTheme`.
 3. **Опечатка в generic-параметре BlocBuilder**: В одном из сгенерированных виджетов в тип закрался артефакт языка `BlocBuilder<AuthBloc, 状态: AuthState>`.
 
