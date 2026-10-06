@@ -53,9 +53,27 @@ app.*.map.json
 *.userosscache
 *.sln.docstates
 
-# Environment
-.env
-!.env.example
+# Environment & Secrets
+**/.env
+**/.env.*
+!**/.env.example
+**/env/*.json
+!**/env/*.example.json
+**/appsettings.Local.json
+**/appsettings.Secrets.json
+secrets.json
+
+# Keystores, certificates and private keys
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+*.cer
+*.key
+key.properties
+AuthKey_*.p8
+*.mobileprovision
 
 # Docker / Databases
 pgdata/
