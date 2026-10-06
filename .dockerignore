@@ -1,0 +1,16 @@
+**/.git
+**/.github
+**/.vscode
+**/.idea
+**/bin
+**/obj
+**/build
+.dart_tool
+.flutter-plugins
+.flutter-plugins-dependencies
+android
+ios
+lib
+test
+pgdata
+.env
